@@ -83,3 +83,29 @@ h3 {
 .text-link:hover {
   border-color: var(--text);
 }
+/* Keep keyboard navigation visible against both charcoal and photography. */
+a:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 5px;
+}
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: var(--page-padding);
+  z-index: 30;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: translateY(0); }
+.eyebrow { line-height: 1.6; }
+.text-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  border-color: var(--accent);
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
+}

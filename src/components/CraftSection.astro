@@ -1,0 +1,54 @@
+<section id="craft" class="craft" aria-labelledby="craft-title">
+  <div class="container craft-grid">
+    <div class="craft-heading">
+      <p class="eyebrow">The craft</p>
+      <h2 id="craft-title">Built slowly.<br />Finished by hand.</h2>
+    </div>
+    <div class="craft-copy">
+      <p>
+        Ariestasia pieces are shaped, assembled and detailed by hand in Bali.
+        Sculpted forms are combined with shell, pearls, crystals, beads and
+        found elements, then layered into individual compositions.
+      </p>
+      <p>
+        No two pieces are repeated exactly. Each crown develops through the
+        making process rather than from a fixed production template.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .craft { padding-block: var(--section-space); background: var(--bg); }
+  .craft-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    column-gap: clamp(3rem, 7vw, 7rem);
+    row-gap: 1.25rem;
+    align-items: start;
+  }
+  /* Share a row with the headline, independent of the eyebrow's height. */
+  .craft-heading { display: contents; }
+  .eyebrow { grid-column: 1; margin: 0; }
+  h2 {
+    grid-column: 1;
+    margin: 0;
+    font-size: clamp(3.5rem, 6vw, 6.8rem);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+  }
+  .craft-copy { grid-column: 2; grid-row: 2; max-width: 34rem; }
+  .craft-copy p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: clamp(1rem, 1.2vw, 1.18rem);
+    line-height: 1.85;
+  }
+  .craft-copy p + p { margin-top: 1.25rem; }
+  @media (max-width: 800px) {
+    .craft { padding-block: clamp(4rem, 10vw, 6rem); }
+    .craft-grid { grid-template-columns: minmax(0, 1fr); }
+    .craft-copy { grid-column: 1; grid-row: auto; margin-top: 1rem; }
+    h2 { font-size: clamp(3.5rem, 9vw, 5rem); }
+  }
+</style>

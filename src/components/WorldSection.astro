@@ -3,139 +3,100 @@ interface Props {
   name: string;
   description: string;
   image: string;
+  alt: string;
+  width: number;
+  height: number;
+  position?: string;
+  mobilePosition?: string;
+  mobileRatio?: string;
   side?: "left" | "right";
 }
 
 const {
-  name,
-  description,
-  image,
+  name, description, image, alt, width, height,
+  position = "50% 20%",
+  mobilePosition = position,
+  mobileRatio = "1 / 1",
   side = "left"
 } = Astro.props;
 ---
 
-<section class:list={["world", side]}>
+<section class:list={["world", side]} style={{ "--image-position": position, "--mobile-position": mobilePosition, "--mobile-ratio": mobileRatio }}>
   <div class="world-image">
-    <img src={image} alt={name} />
+    <img src={image} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
   </div>
-
   <div class="world-copy">
-    <p class="eyebrow">
-      The worlds of Ariestasia
-    </p>
-
+    <p class="eyebrow">The worlds of Ariestasia</p>
     <h2>{name}</h2>
-
-    <p class="description">
-      {description}
-    </p>
-
-    <a href="#" class="text-link">
-      Enter {name}
-    </a>
+    <p class="description">{description}</p>
+    <!-- A destination can be supplied when collection pages are ready. -->
+    <span class="collection-label">{name} collection</span>
   </div>
 </section>
 
 <style>
   .world {
-    min-height: 82vh;
-
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
     background: var(--bg-soft);
   }
-
   .world.right {
-    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   }
-
   .world-image {
-    min-height: 82vh;
+    position: relative;
+    min-height: clamp(34rem, 72svh, 52rem);
     overflow: hidden;
   }
-
   .world-image img {
-    width: 100%;
+    position: absolute;
+    inset: 0;
     height: 100%;
-
     object-fit: cover;
-    object-position: center;
-
-    transition: transform 900ms ease;
+    object-position: var(--image-position);
   }
-
-  .world:hover .world-image img {
-    transform: scale(1.015);
-  }
-
   .world-copy {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
-
-    padding:
-      clamp(4rem, 8vw, 8rem)
-      var(--page-padding);
-
-    transform: translateY(-3vh);
+    padding: clamp(3rem, 6vw, 6rem) var(--page-padding);
   }
-
-  .world.right .world-image {
-    grid-column: 2;
-  }
-
-  .world.right .world-copy {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
+  .world.right .world-image { grid-column: 2; }
+  .world.right .world-copy { grid-column: 1; grid-row: 1; }
+  .eyebrow { margin: 0 0 1.25rem; }
   h2 {
-    margin:
-      0.5rem
-      0
-      1.5rem;
-
-    font-size: clamp(4rem, 8vw, 8rem);
-    line-height: 0.82;
-
+    margin: 0 0 1.5rem;
+    font-size: clamp(3.5rem, 6.5vw, 7rem);
+    line-height: 0.98;
     letter-spacing: -0.025em;
   }
-
   .description {
     max-width: 25rem;
-
+    margin: 0;
     color: var(--text-muted);
-
     font-size: clamp(1rem, 1.15vw, 1.18rem);
     line-height: 1.8;
   }
-
+  .collection-label {
+    margin-top: 2rem;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .world-image img { transition: transform 900ms ease; }
+    .world-image:hover img { transform: scale(1.01); }
+  }
   @media (max-width: 800px) {
-    .world,
-    .world.right {
-      min-height: auto;
-
-      display: flex;
-      flex-direction: column;
-    }
-
-    .world-image {
-      min-height: auto;
-      aspect-ratio: 4 / 5;
-    }
-
-    .world-copy {
-      transform: none;
-
-      padding:
-        4rem
-        var(--page-padding)
-        5rem;
-    }
-
-    h2 {
-      font-size: clamp(3.5rem, 18vw, 6rem);
-    }
+    .world, .world.right { display: flex; flex-direction: column; }
+    .world-image { min-height: 0; aspect-ratio: var(--mobile-ratio); }
+    .world-image img { object-position: var(--mobile-position); }
+    .world-copy { padding: clamp(2.5rem, 7vw, 3.5rem) var(--page-padding) clamp(3rem, 8vw, 4rem); }
+    .eyebrow { margin-bottom: 1rem; }
+    h2 { font-size: clamp(3.25rem, 11vw, 5rem); margin-bottom: 1.25rem; }
+    .collection-label { margin-top: 1.5rem; }
   }
 </style>

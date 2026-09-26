@@ -2,7 +2,7 @@
   <div class="hero-image">
     <img
       src="/images/hero/golden-orange-crown.jpg"
-      alt="Ariestasia handcrafted bronze crown"
+      alt="Ariestasia rose-gold crown with shell details, pearls and crystal drops" fetchpriority="high"
     />
   </div>
 
@@ -29,10 +29,10 @@
 <style>
   .hero {
     position: relative;
-    min-height: 100svh;
+    min-height: max(42rem, 100svh);
 
     display: grid;
-    grid-template-columns: 0.8fr 1.6fr;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
 
     background: var(--bg);
     overflow: hidden;
@@ -40,7 +40,7 @@
 
   .hero-image {
     grid-column: 2;
-    height: 100svh;
+    height: max(42rem, 100svh);
   }
 
   .hero-image img {
@@ -54,21 +54,24 @@
     grid-row: 1;
 
     align-self: center;
-    transform: translateY(-4vh);
+    position: relative;
+    z-index: 1;
 
     padding-left: var(--page-padding);
-    padding-right: clamp(2rem, 5vw, 7rem);
+    padding-right: 1.5rem;
   }
 
   h1 {
     margin: 0.35rem 0 1rem;
 
-    font-size: clamp(3.5rem, 6.5vw, 7rem);
+    font-size: clamp(2.25rem, 4.6vw, 6rem);
     line-height: 0.9;
 
     text-transform: uppercase;
     letter-spacing: 0.045em;
   }
+
+  .hero-content .eyebrow { margin-bottom: 1rem; }
 
   .tagline {
     max-width: 28rem;
@@ -82,24 +85,24 @@
   @media (max-width: 800px) {
     .hero {
       display: block;
+      padding-top: 7.5rem;
       min-height: auto;
     }
 
     .hero-image {
-      height: 68svh;
+      height: auto;
+      aspect-ratio: 1 / 1;
     }
 
     .hero-content {
       transform: none;
 
       padding:
-        3rem
-        var(--page-padding)
-        5rem;
+        2.5rem var(--page-padding) 3rem;
     }
 
     h1 {
-      font-size: clamp(3.5rem, 18vw, 6rem);
+      font-size: clamp(2rem, 10.5vw, 5.25rem);
     }
   }
 </style>

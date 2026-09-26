@@ -5,6 +5,12 @@ import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Intro from "../components/Intro.astro";
 import WorldSection from "../components/WorldSection.astro";
+import CraftSection from "../components/CraftSection.astro";
+import FeaturedGrid from "../components/FeaturedGrid.astro";
+import Adornments from "../components/Adornments.astro";
+import CommissionSection from "../components/CommissionSection.astro";
+import MakerSection from "../components/MakerSection.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 <BaseLayout>
@@ -48,5 +54,17 @@ import WorldSection from "../components/WorldSection.astro";
         image="/images/worlds/ember.jpg"
       />
     </div>
+
+    <CraftSection />
+
+    <FeaturedGrid />
+
+    <Adornments />
+
+    <CommissionSection />
+
+    <MakerSection />
   </main>
+
+  <Footer />
 </BaseLayout>

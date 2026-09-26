@@ -1,0 +1,93 @@
+<section class="featured" aria-labelledby="featured-title">
+  <div class="container">
+    <div class="featured-heading">
+      <p class="eyebrow">Selected works</p>
+      <h2 id="featured-title">Featured pieces</h2>
+    </div>
+    <div class="grid">
+      <figure class="piece piece-large">
+        <div class="piece-image">
+          <img src="/images/worlds/deep-sea.jpg"
+            alt="Deep blue crown with tall spiral shells, sculpted fins and hanging beads"
+            width="1988" height="2485" loading="lazy" decoding="async" />
+        </div>
+        <figcaption class="piece-meta"><span>Deep Sea</span><span>One of one</span></figcaption>
+      </figure>
+      <figure class="piece piece-pearl">
+        <div class="piece-image">
+          <img src="/images/worlds/pearl.jpg"
+            alt="Ivory shell crown with pearls and iridescent crystal drops"
+            width="1500" height="1875" loading="lazy" decoding="async" />
+        </div>
+        <figcaption class="piece-meta"><span>Pearl</span><span>One of one</span></figcaption>
+      </figure>
+      <figure class="piece piece-garden">
+        <div class="piece-image">
+          <img src="/images/worlds/garden.jpg"
+            alt="Pink floral crown with green leaves and cascading flower beads"
+            width="1891" height="2363" loading="lazy" decoding="async" />
+        </div>
+        <figcaption class="piece-meta"><span>Garden</span><span>One of one</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .featured { padding-bottom: var(--section-space); background: var(--bg); }
+  .featured-heading { margin-bottom: clamp(2rem, 4vw, 4rem); }
+  .eyebrow { margin: 0 0 1.25rem; }
+  h2 {
+    margin: 0;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr);
+    column-gap: clamp(1.5rem, 4vw, 4rem);
+    row-gap: clamp(2rem, 3vw, 3rem);
+  }
+  .piece { margin: 0; min-width: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
+  .piece-large { grid-row: span 2; }
+  .piece-image { position: relative; overflow: hidden; }
+  .piece-large .piece-image { aspect-ratio: 4 / 5; }
+  .piece img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .piece-large img { object-position: 50% 0%; }
+  .piece-pearl img { object-position: 50% 0%; }
+  .piece-garden img { object-position: 50% 8%; }
+  .piece-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    padding-top: 1rem;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    line-height: 1.6;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 800px) {
+    .featured { padding-bottom: clamp(4rem, 10vw, 6rem); }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.25rem; }
+    .piece-large { grid-column: 1 / -1; grid-row: auto; }
+    .piece-image { aspect-ratio: 1 / 1; }
+    .piece-large .piece-image { aspect-ratio: 1 / 1; }
+    .piece-garden img { object-position: 50% 0%; }
+  }
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+    .piece-large .piece-image { aspect-ratio: 4 / 5; }
+    .piece:not(.piece-large) { width: 88%; }
+    .piece-garden { justify-self: end; }
+    h2 { font-size: clamp(3rem, 12vw, 3.5rem); }
+  }
+</style>

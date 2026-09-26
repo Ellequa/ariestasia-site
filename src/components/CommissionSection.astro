@@ -1,0 +1,113 @@
+<section id="commissions" class="commission">
+  <div class="container commission-grid">
+    <div class="commission-heading">
+      <p class="eyebrow">Custom commissions</p>
+
+      <h2>
+        Made for
+        <br />
+        one person.
+      </h2>
+    </div>
+
+    <div class="commission-copy">
+      <p>
+        Ariestasia accepts a limited number of custom commissions for crowns,
+        ceremonial pieces and accompanying adornments.
+      </p>
+
+      <p>
+        Each begins with a conversation and develops through colour, material,
+        form and story.
+      </p>
+
+      <a class="commission-link" href="mailto:hello@ariestasia.com">
+        Enquire about a commission
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .commission {
+    padding-block: var(--section-space);
+    background: var(--bg);
+  }
+
+  .commission-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(3rem, 8vw, 8rem);
+    align-items: start;
+  }
+
+  h2 {
+    margin: 0.6rem 0 0;
+
+    font-size: clamp(3.8rem, 6.6vw, 7rem);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+  }
+
+  .commission-copy {
+    max-width: 30rem;
+    padding-top: 2.6rem;
+  }
+
+  .commission-copy p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: clamp(1rem, 1.2vw, 1.18rem);
+    line-height: 1.85;
+  }
+
+  .commission-copy p + p {
+    margin-top: 1.2rem;
+  }
+
+  .commission-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    line-height: 1.6;
+    margin-top: 1.75rem;
+
+    color: var(--text);
+    text-decoration: none;
+
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    border-bottom: 1px solid rgba(232, 225, 213, 0.35);
+    padding-bottom: 0.35rem;
+
+    transition:
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .commission-link:hover,
+  .commission-link:focus-visible {
+    color: #fff;
+    border-color: rgba(232, 225, 213, 0.8);
+  }
+
+  .commission-link:focus-visible {
+    outline: 1px solid rgba(232, 225, 213, 0.65);
+    outline-offset: 6px;
+  }
+
+  @media (max-width: 800px) {
+    .commission { padding-block: clamp(4rem, 10vw, 6rem); }
+
+    .commission-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .commission-copy {
+      padding-top: 0;
+    }
+  }
+</style>
