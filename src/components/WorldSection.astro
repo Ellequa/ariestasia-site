@@ -3,100 +3,296 @@ interface Props {
   name: string;
   description: string;
   image: string;
-  alt: string;
-  width: number;
-  height: number;
-  position?: string;
-  mobilePosition?: string;
-  mobileRatio?: string;
   side?: "left" | "right";
+  alt?: string;
+  width?: number;
+  height?: number;
+  href?: string;
+  imagePosition?: string;
 }
 
 const {
-  name, description, image, alt, width, height,
-  position = "50% 20%",
-  mobilePosition = position,
-  mobileRatio = "1 / 1",
-  side = "left"
+  name,
+  description,
+  image,
+  side = "left",
+  alt = `${name} crown by Ariestasia`,
+  width,
+  height,
+  href,
+  imagePosition = "center center",
 } = Astro.props;
+
+const slug = name
+  .toLowerCase()
+  .trim()
+  .replace(/\s+/g, "-");
+
+const collectionHref = href ?? `/worlds/${slug}/`;
 ---
 
-<section class:list={["world", side]} style={{ "--image-position": position, "--mobile-position": mobilePosition, "--mobile-ratio": mobileRatio }}>
+<section
+  class:list={[
+    "world-section",
+    side === "right" && "world-section--reverse",
+  ]}
+  id={slug}
+>
   <div class="world-image">
-    <img src={image} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+    <img
+      src={image}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+      style={`object-position: ${imagePosition};`}
+    />
   </div>
+
   <div class="world-copy">
-    <p class="eyebrow">The worlds of Ariestasia</p>
-    <h2>{name}</h2>
-    <p class="description">{description}</p>
-    <!-- A destination can be supplied when collection pages are ready. -->
-    <span class="collection-label">{name} collection</span>
+    <div class="world-copy-inner">
+      <p class="world-eyebrow">THE WORLDS OF ARIESTASIA</p>
+
+      <h2>{name}</h2>
+
+      <p class="world-description">
+        {description}
+      </p>
+
+      <a
+        class="collection-link"
+        href={collectionHref}
+        aria-label={`Enter the ${name} collection`}
+      >
+        <span>ENTER {name.toUpperCase()}</span>
+        <span class="collection-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
   </div>
 </section>
 
 <style>
-  .world {
+  .world-section {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    background: var(--bg-soft);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    min-height: min(820px, 88vh);
+
+    background: #141413;
+    color: #eee8df;
   }
-  .world.right {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+
+  .world-section--reverse {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   }
+
+  .world-section--reverse .world-image {
+    order: 2;
+  }
+
+  .world-section--reverse .world-copy {
+    order: 1;
+  }
+
   .world-image {
     position: relative;
-    min-height: clamp(34rem, 72svh, 52rem);
+    min-width: 0;
     overflow: hidden;
+    background: #0b0b0a;
   }
+
   .world-image img {
-    position: absolute;
-    inset: 0;
+    display: block;
+    width: 100%;
     height: 100%;
+    min-height: 100%;
     object-fit: cover;
-    object-position: var(--image-position);
   }
+
   .world-copy {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    padding: clamp(3rem, 6vw, 6rem) var(--page-padding);
+    align-items: center;
+    min-width: 0;
+
+    padding:
+      clamp(4rem, 8vw, 9rem)
+      clamp(3rem, 7vw, 8rem);
   }
-  .world.right .world-image { grid-column: 2; }
-  .world.right .world-copy { grid-column: 1; grid-row: 1; }
-  .eyebrow { margin: 0 0 1.25rem; }
-  h2 {
-    margin: 0 0 1.5rem;
-    font-size: clamp(3.5rem, 6.5vw, 7rem);
-    line-height: 0.98;
-    letter-spacing: -0.025em;
+
+  .world-copy-inner {
+    width: 100%;
+    max-width: 35rem;
   }
-  .description {
-    max-width: 25rem;
-    margin: 0;
-    color: var(--text-muted);
-    font-size: clamp(1rem, 1.15vw, 1.18rem);
-    line-height: 1.8;
-  }
-  .collection-label {
-    margin-top: 2rem;
-    color: var(--text-muted);
-    font-size: 0.7rem;
-    line-height: 1.6;
+
+  .world-eyebrow {
+    margin: 0 0 1.55rem;
+
+    color: #ae9a82;
+
+    font-size: 0.69rem;
+    line-height: 1.3;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
   }
-  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .world-image img { transition: transform 900ms ease; }
-    .world-image:hover img { transform: scale(1.01); }
+
+  h2 {
+    margin: 0;
+
+    color: #eee8df;
+
+    font-family: var(--font-display, Georgia, serif);
+    font-size: clamp(4.5rem, 7vw, 7.5rem);
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
   }
-  @media (max-width: 800px) {
-    .world, .world.right { display: flex; flex-direction: column; }
-    .world-image { min-height: 0; aspect-ratio: var(--mobile-ratio); }
-    .world-image img { object-position: var(--mobile-position); }
-    .world-copy { padding: clamp(2.5rem, 7vw, 3.5rem) var(--page-padding) clamp(3rem, 8vw, 4rem); }
-    .eyebrow { margin-bottom: 1rem; }
-    h2 { font-size: clamp(3.25rem, 11vw, 5rem); margin-bottom: 1.25rem; }
-    .collection-label { margin-top: 1.5rem; }
+
+  .world-description {
+    max-width: 31rem;
+    margin: 2rem 0 2.2rem;
+
+    color: #aaa095;
+
+    font-size: clamp(1rem, 1.35vw, 1.18rem);
+    line-height: 1.7;
+  }
+
+  .collection-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+
+    min-height: 44px;
+    padding: 0.7rem 0;
+
+    color: #c8b79f;
+
+    border-bottom: 1px solid rgba(200, 183, 159, 0.38);
+
+    font-size: 0.7rem;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+      color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .collection-arrow {
+    display: inline-block;
+
+    font-size: 0.95rem;
+    line-height: 1;
+
+    transition: transform 180ms ease;
+  }
+
+  .collection-link:hover,
+  .collection-link:focus-visible {
+    color: #eee8df;
+    border-color: rgba(238, 232, 223, 0.85);
+  }
+
+  .collection-link:hover .collection-arrow,
+  .collection-link:focus-visible .collection-arrow {
+    transform: translateX(0.28rem);
+  }
+
+  .collection-link:focus-visible {
+    outline: 1px solid rgba(238, 232, 223, 0.65);
+    outline-offset: 7px;
+  }
+
+  @media (max-width: 900px) {
+    .world-section,
+    .world-section--reverse {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+
+    .world-section .world-image,
+    .world-section .world-copy,
+    .world-section--reverse .world-image,
+    .world-section--reverse .world-copy {
+      order: initial;
+    }
+
+    .world-image {
+      aspect-ratio: 4 / 5;
+    }
+
+    .world-image img {
+      height: 100%;
+      min-height: 0;
+    }
+
+    .world-copy {
+      padding:
+        clamp(3.5rem, 10vw, 6rem)
+        clamp(1.5rem, 7vw, 4rem);
+    }
+
+    .world-copy-inner {
+      max-width: 39rem;
+    }
+
+    h2 {
+      font-size: clamp(4rem, 14vw, 7rem);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .world-image {
+      aspect-ratio: auto;
+    }
+
+    .world-image img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: center center !important;
+    }
+
+    .world-copy {
+      padding: 3.5rem 1.3rem 4rem;
+    }
+
+    .world-eyebrow {
+      margin-bottom: 1.2rem;
+      font-size: 0.63rem;
+    }
+
+    h2 {
+      font-size: clamp(3.8rem, 18vw, 5.4rem);
+    }
+
+    .world-description {
+      margin-top: 1.5rem;
+      margin-bottom: 1.8rem;
+
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .collection-link {
+      font-size: 0.67rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .collection-link,
+    .collection-arrow {
+      transition: none;
+    }
+
+    .collection-link:hover .collection-arrow,
+    .collection-link:focus-visible .collection-arrow {
+      transform: none;
+    }
   }
 </style>
