@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Intro from "../components/Intro.astro";
+import WorldSection from "../components/WorldSection.astro";
+---
+
+<BaseLayout>
+  <Header />
+
+  <main>
+    <Hero />
+
+    <Intro />
+
+    <div id="worlds">
+      <WorldSection
+        name="Deep Sea"
+        description="Dark forms, mineral blues and the strange beauty of things found below."
+        image="/images/worlds/deep-sea.jpg"
+      />
+
+      <WorldSection
+        name="Pearl"
+        description="Shell, ivory and iridescence shaped into ceremonial forms."
+        image="/images/worlds/pearl.jpg"
+        side="right"
+      />
+
+      <WorldSection
+        name="Reef"
+        description="Colour, movement and marine forms drawn from the shallows."
+        image="/images/worlds/reef.jpg"
+      />
+
+      <WorldSection
+        name="Garden"
+        description="Botanical forms, vivid colour and adornment in full bloom."
+        image="/images/worlds/garden.jpg"
+        side="right"
+      />
+
+      <WorldSection
+        name="Ember"
+        description="Crimson, copper and gold with a darker ceremonial edge."
+        image="/images/worlds/ember.jpg"
+      />
+    </div>
+  </main>
+</BaseLayout>

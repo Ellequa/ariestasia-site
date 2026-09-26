@@ -1,0 +1,105 @@
+<section class="hero">
+  <div class="hero-image">
+    <img
+      src="/images/hero/golden-orange-crown.jpg"
+      alt="Ariestasia handcrafted bronze crown"
+    />
+  </div>
+
+  <div class="hero-content">
+    <p class="eyebrow">
+      Handmade in Bali
+    </p>
+
+    <h1>
+      Ariestasia
+    </h1>
+
+    <p class="tagline">
+      Wearable sculpture shaped by sea,
+      myth and imagination.
+    </p>
+
+    <a href="#worlds" class="text-link">
+      Explore the worlds
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+
+    display: grid;
+    grid-template-columns: 0.8fr 1.6fr;
+
+    background: var(--bg);
+    overflow: hidden;
+  }
+
+  .hero-image {
+    grid-column: 2;
+    height: 100svh;
+  }
+
+  .hero-image img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+  }
+
+  .hero-content {
+    grid-column: 1;
+    grid-row: 1;
+
+    align-self: center;
+    transform: translateY(-4vh);
+
+    padding-left: var(--page-padding);
+    padding-right: clamp(2rem, 5vw, 7rem);
+  }
+
+  h1 {
+    margin: 0.35rem 0 1rem;
+
+    font-size: clamp(3.5rem, 6.5vw, 7rem);
+    line-height: 0.9;
+
+    text-transform: uppercase;
+    letter-spacing: 0.045em;
+  }
+
+  .tagline {
+    max-width: 28rem;
+
+    color: var(--text-muted);
+
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 800px) {
+    .hero {
+      display: block;
+      min-height: auto;
+    }
+
+    .hero-image {
+      height: 68svh;
+    }
+
+    .hero-content {
+      transform: none;
+
+      padding:
+        3rem
+        var(--page-padding)
+        5rem;
+    }
+
+    h1 {
+      font-size: clamp(3.5rem, 18vw, 6rem);
+    }
+  }
+</style>

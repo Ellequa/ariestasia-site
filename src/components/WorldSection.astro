@@ -1,0 +1,141 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  image: string;
+  side?: "left" | "right";
+}
+
+const {
+  name,
+  description,
+  image,
+  side = "left"
+} = Astro.props;
+---
+
+<section class:list={["world", side]}>
+  <div class="world-image">
+    <img src={image} alt={name} />
+  </div>
+
+  <div class="world-copy">
+    <p class="eyebrow">
+      The worlds of Ariestasia
+    </p>
+
+    <h2>{name}</h2>
+
+    <p class="description">
+      {description}
+    </p>
+
+    <a href="#" class="text-link">
+      Enter {name}
+    </a>
+  </div>
+</section>
+
+<style>
+  .world {
+    min-height: 82vh;
+
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+
+    background: var(--bg-soft);
+  }
+
+  .world.right {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
+
+  .world-image {
+    min-height: 82vh;
+    overflow: hidden;
+  }
+
+  .world-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition: transform 900ms ease;
+  }
+
+  .world:hover .world-image img {
+    transform: scale(1.015);
+  }
+
+  .world-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding:
+      clamp(4rem, 8vw, 8rem)
+      var(--page-padding);
+
+    transform: translateY(-3vh);
+  }
+
+  .world.right .world-image {
+    grid-column: 2;
+  }
+
+  .world.right .world-copy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  h2 {
+    margin:
+      0.5rem
+      0
+      1.5rem;
+
+    font-size: clamp(4rem, 8vw, 8rem);
+    line-height: 0.82;
+
+    letter-spacing: -0.025em;
+  }
+
+  .description {
+    max-width: 25rem;
+
+    color: var(--text-muted);
+
+    font-size: clamp(1rem, 1.15vw, 1.18rem);
+    line-height: 1.8;
+  }
+
+  @media (max-width: 800px) {
+    .world,
+    .world.right {
+      min-height: auto;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    .world-image {
+      min-height: auto;
+      aspect-ratio: 4 / 5;
+    }
+
+    .world-copy {
+      transform: none;
+
+      padding:
+        4rem
+        var(--page-padding)
+        5rem;
+    }
+
+    h2 {
+      font-size: clamp(3.5rem, 18vw, 6rem);
+    }
+  }
+</style>

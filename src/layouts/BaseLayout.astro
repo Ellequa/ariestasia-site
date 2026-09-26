@@ -1,0 +1,32 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Ariestasia",
+  description = "One-of-a-kind crowns and adornments handmade in Bali."
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <title>{title}</title>
+
+    <meta
+      name="description"
+      content={description}
+    />
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>
