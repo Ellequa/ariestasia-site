@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found | Ariestasia" description="This page could not be found. Return to the Ariestasia atelier." noindex>
+  <main class="not-found container">
+    <p class="eyebrow">Ariestasia · 404</p>
+    <h1>Page not found.</h1>
+    <p class="explanation">The page you’re looking for could not be found.</p>
+    <a class="text-link" href="/">Return home</a>
+  </main>
+</BaseLayout>
+<style>
+  .not-found { min-height: 100svh; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding-block: var(--section-space); }
+  h1 { max-width: 12ch; margin: 0 0 1.5rem; font-size: clamp(3.5rem, 9vw, 8rem); line-height: 0.95; letter-spacing: -0.025em; }
+  .explanation { max-width: 30rem; color: var(--text-muted); line-height: 1.8; }
+</style>

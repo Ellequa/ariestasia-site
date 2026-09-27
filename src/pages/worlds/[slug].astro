@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { imageDimensions } from '../../utils/imageDimensions';
 import { collections, collectionList } from "../../data/collections.js";
 
 import fs from "node:fs";
@@ -61,6 +62,7 @@ const pieces = (collection.pieces ?? [])
     };
   })
   .filter((piece) => piece.images.length > 0);
+const dimensions = Object.fromEntries(await Promise.all(pieces.flatMap(piece => piece.images).map(async image => [image.src, await imageDimensions(image.src)])));
 ---
 
 <BaseLayout
@@ -117,14 +119,19 @@ const pieces = (collection.pieces ?? [])
                     >
                       <img
                         src={image.src}
+                        width={dimensions[image.src].width}
+                        height={dimensions[image.src].height}
                         alt={image.alt}
                         loading={
-                          pieceIndex === 0 && imageIndex < 2
+                          pieceIndex === 0 && imageIndex === 0
                             ? "eager"
                             : "lazy"
                         }
                         decoding="async"
-                        style={`object-position: ${image.position ?? "center center"};`}
+                        style={`
+                          object-position: ${image.position ?? "center center"};
+                          object-fit: ${image.fit ?? "cover"};
+                        `}
                       />
                     </div>
                   </figure>
@@ -179,7 +186,6 @@ const pieces = (collection.pieces ?? [])
 
   .top-home-link {
     display: inline-block;
-
     margin-bottom: 3.5rem;
 
     color: #c8b79f;
@@ -311,7 +317,7 @@ const pieces = (collection.pieces ?? [])
   .image-frame {
     width: 100%;
     overflow: hidden;
-    background: #111;
+    background: #0b0b0a;
   }
 
   .image-frame img {
@@ -319,8 +325,6 @@ const pieces = (collection.pieces ?? [])
 
     width: 100%;
     height: 100%;
-
-    object-fit: cover;
 
     transition: transform 650ms ease;
   }
@@ -385,11 +389,8 @@ const pieces = (collection.pieces ?? [])
   @media (max-width: 900px) {
     .collection-hero {
       width: min(100% - 3rem, 1440px);
-
       grid-template-columns: 1fr;
-
       gap: 3rem;
-
       padding-top: 5rem;
     }
 
@@ -415,9 +416,7 @@ const pieces = (collection.pieces ?? [])
   @media (max-width: 560px) {
     .collection-hero {
       width: calc(100% - 2.4rem);
-
       padding: 3rem 0 4rem;
-
       gap: 2rem;
     }
 
@@ -444,7 +443,6 @@ const pieces = (collection.pieces ?? [])
 
     .piece-heading {
       width: calc(100% - 2.4rem);
-
       margin-left: auto;
       margin-right: auto;
     }
@@ -468,7 +466,7 @@ const pieces = (collection.pieces ?? [])
       width: 100%;
       height: auto;
 
-      object-fit: contain;
+      object-fit: contain !important;
       object-position: center !important;
     }
 

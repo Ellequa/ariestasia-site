@@ -18,27 +18,27 @@ export const collections = {
             position: "center 18%",
           },
           {
-            file: "deep-aurelia-right.jpg",
+            file: "deep-aurelia_right.jpg",
             role: "side",
             position: "center center",
           },
           {
-            file: "deep-aurelia-necklace.jpg",
+            file: "deep-aurelia_necklace.jpg",
             role: "detail",
             position: "center center",
           },
           {
-            file: "deep-aurelia-right-close.jpg",
+            file: "deep-aurelia_right_close.jpg",
             role: "detail",
             position: "center center",
           },
           {
-            file: "deep-aurelia-right2.jpg",
+            file: "deep-aurelia_right2.jpg",
             role: "detail",
             position: "center center",
           },
           {
-            file: "deep-aurelia-right-crown.jpg",
+            file: "deep-aurelia_right-crown.jpg",
             role: "detail",
             position: "center center",
           },
@@ -52,6 +52,7 @@ export const collections = {
             file: "nymera.jpg",
             role: "hero",
             position: "center 20%",
+            aspect: "1 / 1",
           },
           {
             file: "nymera-nocturne.jpg",
@@ -62,11 +63,13 @@ export const collections = {
             file: "nymera-nocturne-side.jpg",
             role: "detail",
             position: "center center",
+            aspect: "4 / 3",
           },
           {
             file: "nymera-necklace.jpg",
             role: "detail",
             position: "center center",
+            aspect: "1 / 1",
           },
           {
             file: "nymera-w-necklace.jpg",
@@ -83,11 +86,13 @@ export const collections = {
             file: "eirlys-right.jpg",
             role: "hero",
             position: "center center",
+            aspect: "4 / 3",
           },
           {
             file: "eirlys-left.jpg",
             role: "side",
             position: "center center",
+            aspect: "1 / 1",
           },
           {
             file: "eirlys-w-necklace.jpg",
@@ -143,6 +148,7 @@ export const collections = {
             role: "detail",
             position: "center center",
             aspect: "1 / 1",
+            fit: "contain",
           },
           {
             file: "velkaria-necklace.jpg",
@@ -163,7 +169,96 @@ export const collections = {
       "Luminous shell, pearl and pale sculpted forms with an almost ceremonial softness.",
     introduction:
       "Pearl gathers Ariestasia's lighter works, where shell, nacre, warm metallic tones and intricate beadwork create pieces that feel luminous and ceremonial.",
-    pieces: [],
+
+    pieces: [
+      {
+        name: "Saralei",
+        images: [
+          {
+            file: "saralei.jpg",
+            role: "hero",
+            position: "center center",
+          },
+          {
+            file: "saralei-right.jpg",
+            role: "side",
+            position: "center center",
+          },
+          {
+            file: "saralei-left.jpg",
+            role: "detail",
+            position: "center center",
+          },
+          {
+            file: "saralei-w-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+        ],
+      },
+
+      {
+        name: "Selene",
+        images: [
+          {
+            file: "selene.jpg",
+            role: "hero",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "selene-right.jpg",
+            role: "side",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "selene-w-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+          {
+            file: "selene-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+        ],
+      },
+
+      {
+        name: "Sarale",
+        images: [
+          {
+            file: "saralei-rosarium.jpg",
+            role: "hero",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "sarale-right.jpg",
+            role: "side",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "sarale-lefti.jpg",
+            role: "detail",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "sarale-w-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+          {
+            file: "sarale-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+        ],
+      },
+    ],
   },
 
   reef: {
@@ -174,7 +269,88 @@ export const collections = {
       "Colour, movement and marine forms drawn from the shallows.",
     introduction:
       "Reef is vivid and alive: coral colour, iridescent shell, aquatic greens and the restless ornamental language of shallow water.",
-    pieces: [],
+
+    pieces: [
+      {
+        name: "Seraphine",
+        images: [
+          {
+            file: "seraphine-w-necklace.jpg",
+            role: "hero",
+            position: "center center",
+          },
+          {
+            file: "seraphine-left.jpg",
+            role: "side",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "seraphine-necklace-left.jpg",
+            role: "detail",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "seraphine-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+        ],
+      },
+
+      {
+        name: "Aurelia",
+        images: [
+          {
+            file: "aurelia.jpg",
+            role: "hero",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "aurelia-right.jpg",
+            role: "side",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "aurelia-w-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+        ],
+      },
+
+      {
+        name: "Viridessa",
+        images: [
+          {
+            file: "viridessa.jpg",
+            role: "hero",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "viridessa-left.jpg",
+            role: "side",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "viridessa-right.jpg",
+            role: "detail",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "viridessa-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+        ],
+      },
+    ],
   },
 
   garden: {
@@ -185,7 +361,37 @@ export const collections = {
       "Botanical forms, vivid colour and adornment in full bloom.",
     introduction:
       "Garden moves beyond the sea into flowers, leaves, vines and botanical fantasy, while retaining Ariestasia's sculptural and highly detailed approach.",
-    pieces: [],
+
+    pieces: [
+      {
+        name: "Nymara",
+        images: [
+          {
+            file: "nymara.jpg",
+            role: "hero",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "nymara-side.jpg",
+            role: "side",
+            position: "center center",
+            aspect: "4 / 5",
+          },
+          {
+            file: "nymara-w-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+          {
+            file: "nymara-necklace.jpg",
+            role: "detail",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+        ],
+      },
+    ],
   },
 
   ember: {
@@ -196,7 +402,37 @@ export const collections = {
       "Heat, ritual colour and darker floral forms.",
     introduction:
       "Ember explores crimson, wine, bronze and gold: pieces with a warmer, more dramatic character inspired by flame, ceremony and richly coloured organic forms.",
-    pieces: [],
+
+    pieces: [
+      {
+        name: "Noctarae",
+        images: [
+          {
+            file: "noctarae.jpg",
+            role: "hero",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "noctarae-left.jpg",
+            role: "side",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "noctarae-right.jpg",
+            role: "detail",
+            position: "center center",
+            aspect: "1 / 1",
+          },
+          {
+            file: "noctarae-necklace.jpg",
+            role: "detail",
+            position: "center center",
+          },
+        ],
+      },
+    ],
   },
 };
 

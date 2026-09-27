@@ -1,0 +1,401 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { imageDimensions } from "../utils/imageDimensions";
+
+import fs from "node:fs";
+import path from "node:path";
+
+const adornmentsDirectory = path.join(
+  process.cwd(),
+  "public",
+  "images",
+  "adornments"
+);
+
+let images = [];
+
+if (fs.existsSync(adornmentsDirectory)) {
+  images = fs
+    .readdirSync(adornmentsDirectory)
+    .filter((file) => /\.(jpg|jpeg|png|webp|avif)$/i.test(file))
+    .sort((a, b) => a.localeCompare(b));
+}
+
+const dimensions = Object.fromEntries(
+  await Promise.all(
+    images.map(async (file) => [
+      file,
+      await imageDimensions(`/images/adornments/${file}`),
+    ])
+  )
+);
+
+function makeAlt(file) {
+  const name = file
+    .replace(/\.[^.]+$/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+
+  return `Ariestasia ${name}`;
+}
+---
+
+<BaseLayout
+  title="Adornments | Ariestasia"
+  description="Sculptural necklaces and wearable adornments handmade by Ariestasia in Bali."
+>
+  <main class="adornments-page">
+    <section class="adornments-hero">
+      <a class="home-link" href="/">
+        Home
+      </a>
+
+      <p class="eyebrow">Beyond the crown</p>
+
+      <h1>Adornments</h1>
+
+      <div class="intro-grid">
+        <p class="lead">
+          Smaller forms shaped with the same language of shell, pearl,
+          crystal, beadwork and sculpted detail.
+        </p>
+
+        <p class="intro-copy">
+          Some accompany a crown. Others stand alone. Each is composed slowly
+          by hand as a piece of wearable sculpture.
+        </p>
+      </div>
+    </section>
+
+    {
+      images.length > 0 ? (
+        <section class="adornments-gallery" aria-label="Ariestasia adornments">
+          {images.map((file, index) => (
+            <figure
+              class:list={[
+                "adornment",
+                index % 7 === 0 && "adornment--wide",
+                index % 7 === 3 && "adornment--tall",
+                file === "deep-aurelia_necklace.jpg" &&
+                  "adornment--aurelia-necklace",
+              ]}
+            >
+              <div class="image-frame">
+                <img
+                  src={`/images/adornments/${file}`}
+                  width={dimensions[file].width}
+                  height={dimensions[file].height}
+                  alt={makeAlt(file)}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+              </div>
+            </figure>
+          ))}
+        </section>
+      ) : (
+        <section class="empty-gallery">
+          <p>The adornments collection is being prepared.</p>
+        </section>
+      )
+    }
+
+    <footer class="page-footer">
+      <a href="/">Home</a>
+      <a href="/worlds/deep-sea/">Deep Sea</a>
+      <a href="/worlds/pearl/">Pearl</a>
+      <a href="/worlds/reef/">Reef</a>
+      <a href="/worlds/garden/">Garden</a>
+      <a href="/worlds/ember/">Ember</a>
+    </footer>
+  </main>
+</BaseLayout>
+
+<style>
+  .adornments-page {
+    min-height: 100vh;
+    background: #080807;
+    color: #eee8df;
+  }
+
+  .adornments-hero {
+    width: min(100% - 8rem, 1440px);
+    margin: 0 auto;
+    padding: clamp(5rem, 8vw, 8rem) 0 clamp(6rem, 10vw, 10rem);
+  }
+
+  .home-link {
+    display: inline-block;
+
+    margin-bottom: 3.5rem;
+    padding-bottom: 0.3rem;
+
+    color: #c8b79f;
+
+    border-bottom: 1px solid rgba(200, 183, 159, 0.28);
+
+    font-size: 0.68rem;
+    line-height: 1;
+    letter-spacing: 0.17em;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    transition:
+      color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .home-link:hover,
+  .home-link:focus-visible {
+    color: #eee8df;
+    border-color: rgba(238, 232, 223, 0.8);
+  }
+
+  .eyebrow {
+    margin: 0 0 1.25rem;
+
+    color: #b8a68f;
+
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0;
+
+    max-width: 100%;
+
+    color: #eee8df;
+
+    font-family: var(--font-display, Georgia, serif);
+    font-size: clamp(5rem, 11vw, 11rem);
+    font-weight: 400;
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+  }
+
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.7fr);
+    gap: clamp(3rem, 10vw, 10rem);
+    align-items: end;
+
+    margin-top: clamp(3rem, 6vw, 6rem);
+  }
+
+  .lead,
+  .intro-copy {
+    margin: 0;
+  }
+
+  .lead {
+    max-width: 39rem;
+
+    color: #c5bbb0;
+
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    line-height: 1.55;
+  }
+
+  .intro-copy {
+    max-width: 30rem;
+
+    color: #9f958b;
+
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .adornments-gallery {
+    width: min(100% - 5rem, 1500px);
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1rem, 1.8vw, 1.8rem);
+
+    padding-bottom: clamp(8rem, 14vw, 14rem);
+  }
+
+  .adornment {
+    grid-column: span 4;
+    margin: 0;
+  }
+
+  .adornment--wide {
+    grid-column: span 8;
+  }
+
+  .adornment--tall {
+    grid-column: span 4;
+  }
+
+  .adornment--aurelia-necklace {
+    grid-column: span 4;
+  }
+
+  .image-frame {
+    aspect-ratio: 4 / 5;
+
+    overflow: hidden;
+
+    background: #0b0b0a;
+  }
+
+  .adornment--wide .image-frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .adornment--tall .image-frame {
+    aspect-ratio: 3 / 4;
+  }
+
+  .adornment--aurelia-necklace .image-frame {
+    aspect-ratio: 4 / 5;
+  }
+
+  .image-frame img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center center;
+
+    transition: transform 650ms ease;
+  }
+
+  .adornment:hover img {
+    transform: scale(1.012);
+  }
+
+  .empty-gallery {
+    width: min(100% - 4rem, 1440px);
+    margin: 0 auto;
+    padding: 0 0 10rem;
+
+    color: #91877d;
+  }
+
+  .page-footer {
+    width: min(100% - 4rem, 1440px);
+    margin: 0 auto;
+    padding: 2rem 0 4rem;
+
+    border-top: 1px solid rgba(238, 232, 223, 0.14);
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+  }
+
+  .page-footer a {
+    color: #8f867d;
+
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    transition: color 180ms ease;
+  }
+
+  .page-footer a:hover,
+  .page-footer a:focus-visible {
+    color: #eee8df;
+  }
+
+  @media (max-width: 900px) {
+    .adornments-hero {
+      width: min(100% - 3rem, 1440px);
+    }
+
+    .intro-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .adornments-gallery {
+      width: min(100% - 2rem, 1500px);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .adornment,
+    .adornment--wide,
+    .adornment--tall,
+    .adornment--aurelia-necklace {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .adornments-hero {
+      width: calc(100% - 2.4rem);
+      padding: 3rem 0 5rem;
+    }
+
+    .home-link {
+      margin-bottom: 2.6rem;
+    }
+
+    h1 {
+      font-size: clamp(3.25rem, 15.8vw, 5.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+      white-space: nowrap;
+    }
+
+    .intro-grid {
+      margin-top: 2.5rem;
+    }
+
+    .adornments-gallery {
+      width: 100%;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .adornment,
+    .adornment--wide,
+    .adornment--tall,
+    .adornment--aurelia-necklace {
+      grid-column: 1;
+    }
+
+    .image-frame,
+    .adornment--wide .image-frame,
+    .adornment--tall .image-frame,
+    .adornment--aurelia-necklace .image-frame {
+      aspect-ratio: auto;
+    }
+
+    .image-frame img {
+      height: auto;
+      object-fit: contain;
+    }
+
+    .page-footer {
+      width: calc(100% - 2.4rem);
+      gap: 1rem 1.4rem;
+    }
+  }
+
+  @media (max-width: 360px) {
+    h1 {
+      font-size: clamp(3rem, 15vw, 3.4rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .image-frame img {
+      transition: none;
+    }
+
+    .adornment:hover img {
+      transform: none;
+    }
+  }
+</style>

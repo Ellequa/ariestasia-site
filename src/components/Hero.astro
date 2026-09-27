@@ -1,6 +1,6 @@
 <section class="hero">
   <div class="hero-image">
-    <img
+    <img decoding="async" width="1504" height="1504"
       src="/images/hero/golden-orange-crown.jpg"
       alt="Ariestasia rose-gold crown with shell details, pearls and crystal drops" fetchpriority="high"
     />
@@ -104,5 +104,8 @@
     h1 {
       font-size: clamp(2rem, 10.5vw, 5.25rem);
     }
+  }
+  @media (max-width: 768px) {
+    .hero { padding-top: 0; }
   }
 </style>

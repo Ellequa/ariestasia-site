@@ -17,35 +17,57 @@
         Some are created as companions to a crown. Others are made as
         individual works in their own right.
       </p>
+
+      <a class="adornments-link" href="/adornments/">
+        View the adornments
+        <span aria-hidden="true">→</span>
+      </a>
     </div>
 
-    <div class="adornments-image">
-      <img
-        src="/images/worlds/reef.jpg"
-        alt="Green and gold shell crown with a turquoise drop on a black display bust"
-        width="1973" height="1973" decoding="async"
+    <a
+      class="adornments-image"
+      href="/adornments/"
+      aria-label="View Ariestasia adornments"
+    >
+      <img width="1441" height="1441"
+        src="/images/adornments/viridessa-necklace.jpg"
+        alt="Ariestasia sculptural necklace with shell, beadwork and ornamental detailing"
+        decoding="async"
         loading="lazy"
       />
-    </div>
+    </a>
   </div>
 </section>
 
 <style>
-  .adornments { padding-block: var(--section-space); background: var(--bg-soft); }
+  .adornments {
+    padding-block: var(--section-space);
+    background: var(--bg-soft);
+  }
+
   .adornments-grid {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: clamp(2.5rem, 6vw, 6rem);
     align-items: center;
   }
-  .adornments-copy { max-width: 32rem; min-width: 0; }
-  .adornments-copy .eyebrow { margin: 0 0 1.25rem; }
+
+  .adornments-copy {
+    max-width: 32rem;
+    min-width: 0;
+  }
+
+  .adornments-copy .eyebrow {
+    margin: 0 0 1.25rem;
+  }
+
   h2 {
     margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
     font-size: clamp(3rem, 5.8vw, 6rem);
     line-height: 1;
     letter-spacing: -0.025em;
   }
+
   .adornments-copy p:not(.eyebrow) {
     margin: 0;
     max-width: 29rem;
@@ -53,17 +75,106 @@
     font-size: clamp(1rem, 1.15vw, 1.15rem);
     line-height: 1.8;
   }
-  .adornments-copy p + p { margin-top: 1.25rem; }
-  /* A neutral frame for the future adornment detail, independent of viewport height. */
-  .adornments-image {
-    --image-position: 50% 50%;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
+
+  .adornments-copy p + p {
+    margin-top: 1.25rem;
   }
-  .adornments-image img { height: 100%; object-fit: cover; object-position: var(--image-position); }
+
+  .adornments-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+
+    margin-top: 2.5rem;
+    padding-bottom: 0.4rem;
+
+    color: var(--text);
+
+    border-bottom: 1px solid rgba(232, 225, 213, 0.28);
+
+    font-size: 0.68rem;
+    line-height: 1;
+    letter-spacing: 0.17em;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    transition:
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .adornments-link span {
+    transition: transform 180ms ease;
+  }
+
+  .adornments-link:hover,
+  .adornments-link:focus-visible {
+    border-color: rgba(232, 225, 213, 0.8);
+  }
+
+  .adornments-link:hover span,
+  .adornments-link:focus-visible span {
+    transform: translateX(4px);
+  }
+
+  .adornments-image {
+    display: block;
+    aspect-ratio: 4 / 5;
+
+    overflow: hidden;
+
+    background: #0b0b0a;
+  }
+
+  .adornments-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center center;
+
+    transition: transform 650ms ease;
+  }
+
+  .adornments-image:hover img {
+    transform: scale(1.015);
+  }
+
   @media (max-width: 800px) {
-    .adornments { padding-block: clamp(4rem, 10vw, 6rem); }
-    .adornments-grid { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
-    h2 { font-size: clamp(3rem, 10vw, 5rem); }
+    .adornments {
+      padding-block: clamp(4rem, 10vw, 6rem);
+    }
+
+    .adornments-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+
+    h2 {
+      font-size: clamp(3rem, 10vw, 5rem);
+    }
+
+    .adornments-image {
+      aspect-ratio: auto;
+    }
+
+    .adornments-image img {
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .adornments-image img,
+    .adornments-link span {
+      transition: none;
+    }
+
+    .adornments-image:hover img,
+    .adornments-link:hover span {
+      transform: none;
+    }
   }
 </style>

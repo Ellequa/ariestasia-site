@@ -1,9 +1,9 @@
-<section id="commissions" class="commission">
+<section id="commissions" class="commission" aria-labelledby="commission-title">
   <div class="container commission-grid">
     <div class="commission-heading">
       <p class="eyebrow">Custom commissions</p>
 
-      <h2>
+      <h2 id="commission-title">
         Made for
         <br />
         one person.
@@ -21,12 +21,104 @@
         form and story.
       </p>
 
-      <a class="commission-link" href="mailto:hello@ariestasia.com">
-        Enquire about a commission
-      </a>
+      <form id="commission-form" action="https://formsubmit.co/indyariestasia@gmail.com" method="POST" aria-label="Commission enquiry" aria-describedby="commission-note">
+        <input type="hidden" name="_subject" value="Ariestasia — Custom Commission Enquiry" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_captcha" value="false" />
+        <div class="form-trap" aria-hidden="true">
+          <label for="commission-website">Leave this field empty</label>
+          <input id="commission-website" name="_honey" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <p id="commission-note" class="form-note">All fields are required except budget.</p>
+        <fieldset class="form-fields">
+          <legend class="visually-hidden">Your commission enquiry</legend>
+          <div class="form-row">
+            <div class="field">
+              <label for="commission-name">Name</label>
+              <input id="commission-name" name="name" type="text" autocomplete="name" required maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="commission-email">Email</label>
+              <input id="commission-email" name="email" type="email" autocomplete="email" required maxlength="254" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="commission-piece">Type of piece</label>
+              <select id="commission-piece" name="piece" required>
+                <option value="" disabled selected>Select a piece</option>
+                <option value="Crown">Crown</option>
+                <option value="Adornment">Adornment</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="commission-budget">Budget <span>(optional)</span></label>
+              <input id="commission-budget" name="budget" type="text" maxlength="100" aria-describedby="budget-hint" />
+              <small id="budget-hint">Please include your currency.</small>
+            </div>
+          </div>
+          <div class="field">
+            <label for="commission-message">What are you imagining?</label>
+            <textarea id="commission-message" name="message" rows="5" required maxlength="5000" aria-describedby="message-hint"></textarea>
+            <small id="message-hint">Tell us about the colours, materials, occasion or story you have in mind.</small>
+          </div>
+          <button class="commission-link" type="submit">Enquire about a commission</button>
+        </fieldset>
+        <p id="commission-status" class="form-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
+        <noscript><p class="form-note">After submitting, you’ll continue to our form service for confirmation.</p></noscript>
+      </form>
     </div>
   </div>
 </section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#commission-form');
+  const status = document.querySelector<HTMLElement>('#commission-status');
+  const fields = form?.querySelector<HTMLFieldSetElement>('fieldset');
+  const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+  if (form && status && fields && button) {
+    let sending = false;
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (sending || !form.reportValidity()) return;
+      const data = new FormData(form);
+      if (String(data.get('_honey') ?? '').trim()) return;
+      sending = true;
+      fields.disabled = true;
+      form.setAttribute('aria-busy', 'true');
+      status.textContent = 'Sending your enquiry…';
+      button.textContent = 'Sending…';
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 30000);
+      try {
+        const endpoint = form.action.replace('https://formsubmit.co/', 'https://formsubmit.co/ajax/');
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(data)),
+          signal: controller.signal,
+        });
+        const result = await response.json();
+        if (!response.ok || !(result.success === true || result.success === 'true')) {
+          throw new Error('Submission was not accepted');
+        }
+        form.reset();
+        status.textContent = 'Thank you. Your enquiry has been sent.';
+      } catch {
+        status.textContent = 'We couldn’t confirm that your enquiry was sent. Your details are still here. Please check your connection and try again in a moment.';
+      } finally {
+        window.clearTimeout(timeout);
+        sending = false;
+        fields.disabled = false;
+        form.removeAttribute('aria-busy');
+        button.textContent = 'Enquire about a commission';
+        status.focus();
+      }
+    });
+  }
+</script>
 
 <style>
   .commission {
@@ -65,12 +157,53 @@
     margin-top: 1.2rem;
   }
 
+  form { margin-top: 2.75rem; }
+  .form-fields { padding: 0; margin: 1.5rem 0 0; border: 0; min-width: 0; }
+  .form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+  .field { min-width: 0; margin-bottom: 1.75rem; }
+  label { display: block; margin-bottom: 0.6rem; font-size: 0.8rem; line-height: 1.6; }
+  label span, small { color: var(--text-muted); }
+  input:not([type="hidden"]), select, textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    border: 0;
+    border-bottom: 1px solid var(--accent);
+    border-radius: 0;
+    padding: 0.65rem 0.25rem;
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.6;
+    color-scheme: dark;
+  }
+  textarea { resize: vertical; }
+  small { display: block; margin-top: 0.6rem; font-size: 0.75rem; line-height: 1.6; }
+  .commission-copy .form-note { font-size: 0.75rem; line-height: 1.7; }
+  .commission-copy .form-status { font-size: 0.9rem; line-height: 1.7; color: var(--text); margin-top: 1.5rem; }
+  .form-status:empty { margin: 0; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, .form-status:focus-visible {
+    outline: 1px solid var(--text);
+    outline-offset: 4px;
+  }
+  .form-trap { display: none; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  fieldset:disabled { opacity: 0.65; }
+  button:disabled { cursor: wait; }
   .commission-link {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    font-family: var(--sans);
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     min-height: 44px;
     line-height: 1.6;
-    margin-top: 1.75rem;
+    margin-top: 0.25rem;
 
     color: var(--text);
     text-decoration: none;
@@ -98,8 +231,14 @@
     outline-offset: 6px;
   }
 
+  @media (max-width: 560px) {
+    .form-row { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  }
+
   @media (max-width: 800px) {
-    .commission { padding-block: clamp(4rem, 10vw, 6rem); }
+    .commission {
+      padding-block: clamp(4rem, 10vw, 6rem);
+    }
 
     .commission-grid {
       grid-template-columns: 1fr;
