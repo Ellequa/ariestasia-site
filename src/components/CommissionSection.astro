@@ -65,60 +65,12 @@
           </div>
           <button class="commission-link" type="submit">Enquire about a commission</button>
         </fieldset>
-        <p id="commission-status" class="form-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>
-        <noscript><p class="form-note">After submitting, you’ll continue to our form service for confirmation.</p></noscript>
+        <p class="form-note">After submitting, you’ll continue to our form service for confirmation.</p>
       </form>
     </div>
   </div>
 </section>
 
-<script>
-  const form = document.querySelector<HTMLFormElement>('#commission-form');
-  const status = document.querySelector<HTMLElement>('#commission-status');
-  const fields = form?.querySelector<HTMLFieldSetElement>('fieldset');
-  const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
-
-  if (form && status && fields && button) {
-    let sending = false;
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (sending || !form.reportValidity()) return;
-      const data = new FormData(form);
-      if (String(data.get('_honey') ?? '').trim()) return;
-      sending = true;
-      fields.disabled = true;
-      form.setAttribute('aria-busy', 'true');
-      status.textContent = 'Sending your enquiry…';
-      button.textContent = 'Sending…';
-      const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 30000);
-      try {
-        const endpoint = form.action.replace('https://formsubmit.co/', 'https://formsubmit.co/ajax/');
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
-          body: JSON.stringify(Object.fromEntries(data)),
-          signal: controller.signal,
-        });
-        const result = await response.json();
-        if (!response.ok || !(result.success === true || result.success === 'true')) {
-          throw new Error('Submission was not accepted');
-        }
-        form.reset();
-        status.textContent = 'Thank you. Your enquiry has been sent.';
-      } catch {
-        status.textContent = 'We couldn’t confirm that your enquiry was sent. Your details are still here. Please check your connection and try again in a moment.';
-      } finally {
-        window.clearTimeout(timeout);
-        sending = false;
-        fields.disabled = false;
-        form.removeAttribute('aria-busy');
-        button.textContent = 'Enquire about a commission';
-        status.focus();
-      }
-    });
-  }
-</script>
 
 <style>
   .commission {
@@ -182,16 +134,12 @@
   textarea { resize: vertical; }
   small { display: block; margin-top: 0.6rem; font-size: 0.75rem; line-height: 1.6; }
   .commission-copy .form-note { font-size: 0.75rem; line-height: 1.7; }
-  .commission-copy .form-status { font-size: 0.9rem; line-height: 1.7; color: var(--text); margin-top: 1.5rem; }
-  .form-status:empty { margin: 0; }
-  input:focus-visible, select:focus-visible, textarea:focus-visible, .form-status:focus-visible {
+  input:focus-visible, select:focus-visible, textarea:focus-visible {
     outline: 1px solid var(--text);
     outline-offset: 4px;
   }
   .form-trap { display: none; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  fieldset:disabled { opacity: 0.65; }
-  button:disabled { cursor: wait; }
   .commission-link {
     background: none;
     border: 0;
