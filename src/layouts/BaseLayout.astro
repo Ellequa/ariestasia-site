@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { imageDimensions } from '../utils/imageDimensions';
 
 interface Props {
   title?: string;
@@ -13,7 +14,9 @@ const {
   noindex = false,
 } = Astro.props;
 const canonical = Astro.site && !noindex ? new URL(Astro.url.pathname, Astro.site) : undefined;
-const socialImage = Astro.site ? new URL('/images/hero/golden-orange-crown.jpg', Astro.site) : undefined;
+const socialImagePath = '/images/hero/golden-orange-crown.jpg';
+const socialImage = Astro.site ? new URL(socialImagePath, Astro.site) : undefined;
+const socialImageDimensions = await imageDimensions(socialImagePath);
 ---
 
 <!doctype html>
@@ -36,6 +39,9 @@ const socialImage = Astro.site ? new URL('/images/hero/golden-orange-crown.jpg',
     <meta name="twitter:description" content={description} />
     {socialImage && <>
       <meta property="og:image" content={socialImage} />
+      <meta property="og:image:width" content={socialImageDimensions.width} />
+      <meta property="og:image:height" content={socialImageDimensions.height} />
+      <meta property="og:image:type" content="image/jpeg" />
       <meta property="og:image:alt" content="Ariestasia rose-gold crown with shell details, pearls and crystal drops" />
       <meta name="twitter:image" content={socialImage} />
       <meta name="twitter:image:alt" content="Ariestasia rose-gold crown with shell details, pearls and crystal drops" />
