@@ -207,12 +207,6 @@ export const collections = {
             aspect: "1 / 1",
           },
           {
-            file: "selene-right.jpg",
-            role: "side",
-            position: "center center",
-            aspect: "1 / 1",
-          },
-          {
             file: "selene-w-necklace.jpg",
             role: "detail",
             position: "center center",
